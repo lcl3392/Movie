@@ -38,5 +38,83 @@ useEffect(() => {
              })
     },[]);
 ```
+- 검색 기능 (onSearch 함수)
+   + onSearch 함수는 텍스트를 입력받아 데이터 목록을 해당 텍스트로 필터링하여 검색 기능을 제공합니다.
+```
+const onSearch = text => {
+        setData(datalist.filter( item =>
+            item.movieNm.toLowerCase().includes(text.toLowerCase())));
+    }
+```
+- 좋아요 기능 (onLike 함수)
+  + onLike 함수는 영화 아이템의 좋아요 상태를 토글합니다. 영화 아이템의 like 속성을 변경하고 상태를 업데이트합니다.
+```
+const onLike = rnum => {
+        setLike(!like);
+        setData(data.map(item => item.rnum === rnum ?
+            {...item, like: !like} : item ))
+    }
+```
+- 모달 기능 (onModal 함수)
+  + onModal 함수는 영화 아이템을 모달로 표시하거나 닫는 데 사용됩니다. 모달을 표시하거나 숨기기 위해 showModal 상태를 업데이트하며, 모달에 표시할 아이템을 선택하여 modalItem 상태를 업데이트합니다.
+```
+const onModal = rnum => {
+        setShowModal(!showModal);
+        setModalItem(datalist.filter(item => item.rnum === rnum));
+    }
+```
+- 탭 변경 기능 (onTab 함수)
+  + onTab 함수는 탭을 변경할 때 호출됩니다. 선택한 탭에 따라 데이터를 필터링하고, 탭 상태를 업데이트하여 활성 탭을 표시합니다.
+```
+const onTab = id => {
+        if (id === 2) { // 상영중
+            setData(datalist.filter(item => item.openDt.replace(/-/g, "") < 20230605));
+            setToggle(true);
+        } else if (id === 3) { // 개봉예정작
+            setData(datalist.filter(item => item.openDt.replace(/-/g, "") > 20230605));
+            setToggle(false);
+        } else {
+            setData(datalist); // 전체
+            setToggle(false);
+        }
+        setTablist(tablist.map(item => item.id === id ? {...item, ontab: true} : {...item, ontab: false} ))
+    }
+```
+- 토글 기능 (onToggle 함수)
+  + onToggle 함수는 데이터 목록을 전체 영화와 현재 상영 중 영화 사이에서 전환합니다.
+```
+const onToggle = () => {
+            setToggle(!toggle);
+            if (!toggle) {
+                onTab(2);
+            } else {
+                onTab(1);
+            }
+    }
+```
+- 렌더링
+  + 컴포넌트의 렌더링 부분은 상태와 데이터를 기반으로 UI를 생성합니다. loading 상태에 따라 로딩 중 메시지 또는 실제 데이터가 표시되며, 오류 메시지도 표시됩니다. 각각의 서브 컴포넌트 (MegaboxForm, MegaboxList, MegaboxModal, MegaboxHeader, MegaboxFooter)은 해당 기능을 수행하고 렌더링됩니다.
+```
+<>
+        <MegaboxHeader />
+        {
+            data && loading ?
+            <Container>
+            <h2 onClick={() => onTab(1)}>MEGABOX</h2>
+            <MegaboxForm onSearch={onSearch} />
+        
+            <MegaboxList data={data} onModal={onModal} onLike={onLike} onTab={onTab} tablist={tablist} onToggle={onToggle} toggle={toggle} />
+            {
+                showModal &&
+                modalItem.map(item => <MegaboxModal onModal={onModal} item={item} />)
+            }
+            </Container>
+            : <h2>로딩 중..</h2>
+        }
+        <h3> {error ? error : null} </h3>
 
+        <MegaboxFooter />
+        </>
+    );
+```
 
