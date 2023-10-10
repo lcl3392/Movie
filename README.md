@@ -15,8 +15,8 @@
 
 <h2>code 설명<h2/>
 
-- useState 훅을 사용하여 여러 가지 상태 변수를 초기화하는 부분입니다.
-  const [data, setData] = useState([]);             // 영화 데이터 배열
+```
+   const [data, setData] = useState([]);             // 영화 데이터 배열
     const [datalist, setDatalist] = useState([]);     // 영화 데이터 배열의 복사본, 검색 기능에서 원본 데이터 보존존
     const [loading, setLoading] = useState(false);    // 데이터 로딩 상태, 초기값 로딩 중이 아님
     const [error, setError] = useState('');           // 오류 메세지
@@ -26,3 +26,4 @@
     const [toggle, setToggle] = useState(false);      // 토글 상태, 초기값 전체 영화 활성화
     const [tablist, setTablist] = useState([{ontab: true, id: 1, tname: '전체 영화'}, 
             {ontab: false, id: 2, tname: '현재 상영 중'}, {ontab: false, id: 3, tname: '개봉 예정작'}]); //탭 목록
+```
