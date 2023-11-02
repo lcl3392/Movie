@@ -7,7 +7,7 @@ margin: auto;
 padding: 50px 0 100px;
 box-sizing: border-box;
 user-select: none;
-/* background-image: url(https://img.freepik.com/free-psd/two-buckets-with-popcorn-mockup_58466-12045.jpg?size=626&ext=jpg); */
+
 h2 {
     font-weight: 900; color: #020506;
     margin: 10px 670px 50px;

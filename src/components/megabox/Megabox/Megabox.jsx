@@ -6,34 +6,37 @@ import MegaboxModal from '../MegaboxModal/MegaboxModal'
 import axios from 'axios';
 import MegaboxHeader from "../MegaboxHeader/MegaboxHeader";
 import MegaboxFooter from "../MegaboxFooter/MegaboxFooter";
+// import movieData from '../../../../public/movieData'; 
 
 const Megabox = () => {
-    const [data, setData] = useState([]);
-    const [datalist, setDatalist] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [showModal, setShowModal] = useState(false);
-    const [like, setLike] = useState(false);
-    const [modalItem, setModalItem] = useState({});
-    const [toggle, setToggle] = useState(false);
-    const [tablist, setTablist] = useState([{ontab: true, id: 1, tname: '전체 영화'}, {ontab: false, id: 2, tname: '현재 상영 중'}, {ontab: false, id: 3, tname: '개봉 예정작'}]);
+    // const [data, setData] = useState(movieData.movies); // JSON 데이터를 사용 가능한 형태로 설정
+    const [data, setData] = useState([]);             // 영화 데이터 배열
+    const [datalist, setDatalist] = useState([]);     // 영화 데이터 배열의 복사본, 검색 기능에서 원본 데이터 보존존
+    const [loading, setLoading] = useState(false);    // 데이터 로딩 상태, 초기값 로딩 중이 아님
+    const [error, setError] = useState('');           // 오류 메세지
+    const [showModal, setShowModal] = useState(false);// 모달 표시 상태
+    const [like, setLike] = useState(false);          // 좋아요 상태
+    const [modalItem, setModalItem] = useState({});   // 모달에 표시될 항목
+    const [toggle, setToggle] = useState(false);      // 토글 상태, 초기값 전체 영화 활성화
+    const [tablist, setTablist] = useState([{ontab: true, id: 1, tname: '전체 영화'}, 
+            {ontab: false, id: 2, tname: '현재 상영 중'}, {ontab: false, id: 3, tname: '개봉 예정작'}]); //탭 목록
 
-    useEffect(() => {
-        const url = 'https://gist.githubusercontent.com/thecheeziest/9ff5d1a64e9348aaec63020bd6efdaed/raw/87ffe1017bef54cdbf6ee3861f1785ec8ee30935/megabox.json';
-        // const url = 'http://localhost:3000/movies';
-        axios.get(url)
-             .then(res => {
-                setData(res.data);
-                setDatalist(res.data);
-                setLoading(true);
-                setError(null);
-            })
-            .catch( error => {
-                setData([]);
-                setLoading(false);
-                setError('E R R O R')
-             })
-    },[]);
+            useEffect(() => {
+                const url = '/data.json'; 
+                axios.get(url)
+                  .then(res => {
+                    setData(res.data.movies);
+                    setDatalist(res.data.movies);
+                    setLoading(true);
+                    setError(null);
+                  })
+                  .catch(error => {
+                    setData([]);
+                    setLoading(false);
+                    setError('ERROR');
+                  });
+              }, []);
+
 
     // 검색창
     const onSearch = text => {
