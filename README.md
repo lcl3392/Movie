@@ -31,23 +31,24 @@
 
 
 - useEffect로 데이터 가져오기
-   + useEffect 훅을 사용하여 컴포넌트가 처음 렌더링될 때 데이터를 가져오는 로직을 수행합니다. Axios를 사용하여 특정 URL에서 데이터를 가져와 data와 datalist 상태를 업데이트하고, 로딩 상태를 설정하며, 오류가 발생한 경우 오류 메시지를 저장합니다.
+   + useEffect를 사용하여 /data.json 경로에서 JSON 데이터를 불러와 data, datalist, loading, error 상태를 업데이트하는 기본적인 방법입니다. 로딩 상태를 설정하며, 오류가 발생한 경우 오류 메시지를 저장합니다.
 ```
-useEffect(() => {
-        const url = 'https://gist.githubusercontent.com/thecheeziest/9ff5d1a64e9348aaec63020bd6efdaed/raw/87ffe1017bef54cdbf6ee3861f1785ec8ee30935/megabox.json';
-        axios.get(url)
-             .then(res => {
-                setData(res.data);
-                setDatalist(res.data);
-                setLoading(true);
-                setError(null);
-            })
-            .catch( error => {
-                setData([]);
-                setLoading(false);
-                setError('E R R O R')
-             })
-    },[]);
+ useEffect(() => {
+                const url = '/data.json'; 
+                axios.get(url)
+                  .then(res => {
+                    setData(res.data.movies);
+                    setDatalist(res.data.movies);
+                    setLoading(true);
+                    setError(null);
+                  })
+                  .catch(error => {
+                    setData([]);
+                    setLoading(false);
+                    setError('ERROR');
+                  });
+              }, []);
+
 ```
 
 
